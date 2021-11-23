@@ -8,17 +8,22 @@ namespace Interactive_Fiction___Edmund
 {
     class Program
     {
-        static int storyLength = 10;
-
         //decleration
+
+        static int storyLength = 10;
+       
         static string[] story = new string[storyLength]; // Stores the story / title & pages / 
 
         static string[] failureText = new string[storyLength]; // stores fail conditions that can be edited
+        static string[] splitText;
 
-        static string[] ChoiceA = new string[storyLength]; // response A
-        static string[] ChoiceB = new string[storyLength]; // response B
+        static int ChoiceA; // response A
+        static int ChoiceB; // response B
 
         static string selection;
+        static string textToSplit;
+        static string textToPrint;
+
         static int pageNum; // element that determins page to be displayed
 
         static bool isGameOver;
@@ -30,11 +35,12 @@ namespace Interactive_Fiction___Edmund
 
             //gameplay loop
             while (isGameOver == false) //gameloop
-            {                 
-                PlotText();
-                Console.WriteLine(story[pageNum]);
-                Console.WriteLine(" ");
-                UserChoice();
+            {               
+                PlotText(); // establishes text to write
+                SplitText(); // splits PlotText(); into readable text && decision values
+                Console.WriteLine(); // writes the story text and decisions
+                Console.Write(splitText);
+                UserChoice(); // determins player decision
 
                 Console.ReadKey(true);                  
             }
@@ -43,73 +49,50 @@ namespace Interactive_Fiction___Edmund
         }
 
         static void PlotText()
-        {
-            DecisionText(); // declare decisions
-
+        {          
             Console.WriteLine("Page " + pageNum); // display Page number
 
             // Story Text blocks
-            story[0] = "I am introducing you to the game! " + System.Environment.NewLine + ChoiceA[pageNum] + System.Environment.NewLine + ChoiceB[pageNum];
-            story[1] = "Hello World! " + System.Environment.NewLine + ChoiceA[pageNum] + System.Environment.NewLine + ChoiceB[pageNum]; ;
-            story[2] = "Hello again! " + System.Environment.NewLine + ChoiceA[pageNum] + System.Environment.NewLine + ChoiceB[pageNum]; ;
-            story[3] = "text " + System.Environment.NewLine + ChoiceA[pageNum] + System.Environment.NewLine + ChoiceB[pageNum]; ;
-            story[4] = "text " + System.Environment.NewLine + ChoiceA[pageNum] + System.Environment.NewLine + ChoiceB[pageNum]; ;
-            story[5] = "text " + System.Environment.NewLine + ChoiceA[pageNum] + System.Environment.NewLine + ChoiceB[pageNum]; ;
-            story[6] = "text " + System.Environment.NewLine + ChoiceA[pageNum] + System.Environment.NewLine + ChoiceB[pageNum]; ;
-            story[7] = "text " + System.Environment.NewLine + ChoiceA[pageNum] + System.Environment.NewLine + ChoiceB[pageNum]; ;
-            story[8] = "text " + System.Environment.NewLine + ChoiceA[pageNum] + System.Environment.NewLine + ChoiceB[pageNum]; ;
-            story[9] = "text " + System.Environment.NewLine + ChoiceA[pageNum] + System.Environment.NewLine + ChoiceB[pageNum]; ;
-        }
-
-        static void DecisionText() // What the play can choose
-        {
-            ChoiceA[0] = "Choice 1 (Page 1)"; // will differ depending on context (cross river, climb tree, etc.)
-            ChoiceB[0] = "Choice 2 (Page 2)";
-
-            ChoiceA[1] = "Choice 1 (Page 2)";
-            ChoiceB[1] = "Choice 2 (Page 3)";
-
-            ChoiceA[2] = "Choice 1 (Page 3)";
-            ChoiceB[2] = "Choice 2 (Page 4)";
-
-            ChoiceA[3] = "Choice 1 (Page 4)";
-            ChoiceB[3] = "Choice 2 (Page 5)";
-
-            ChoiceA[4] = "Choice 1 (Page 5)";
-            ChoiceB[4] = "Choice 2 (Page 6)";
-
-            ChoiceA[5] = "Choice 1 (Page 6)";
-            ChoiceB[5] = "Choice 2 (Page 7)";
-
-            ChoiceA[6] = "Choice 1 (Page 7)";
-            ChoiceB[6] = "Choice 2 (Page 8)";
-
-            ChoiceA[7] = "Choice 1 (Page 8)";
-            ChoiceB[7] = "Choice 2 (Page 9)";
-
-            ChoiceA[8] = "Choice 1 (Page 9)";
-            ChoiceB[8] = "Choice 2 (Page 10)";
-
-            ChoiceA[9] = "Choice 1 (Page 10)";
-            ChoiceB[9] = "Choice 2 (Page 11)";
-        }
+            story[0] = "This is text that explains nonsense, What will you do? \n 1: Walk Left \n 2: Walk Right \n 1;3";
+            story[1] = "I hate this \n What will you do? \n 1: Walk Left \n 2: Walk Right \n 2;0";
+            story[2] = "But this stuff is pretty cool \n What will you do? \n 1: Walk Left \n 2: Walk Right \n 4;6";
+            story[3] = "Some new nonsense approaches \n What will you do? \n 1: Walk Left \n 2: Walk Right \n 5;6";
+            story[4] = "AHHHHHHHHHHHHHHHH \n What will you do? \n 1: Walk Left \n 2: Walk Right \n 1;3";
+            story[5] = "This is text that explains nonsense \n What will you do? \n 1: Walk Left \n 2: Walk Right \n 1;3";
+            story[6] = "This is text that explains nonsense \n What will you do? \n 1: Walk Left \n 2: Walk Right \n 1;3";
+            story[7] = "This is text that explains nonsense \n What will you do? \n 1: Walk Left \n 2: Walk Right \n 1;3";
+            story[8] = "This is text that explains nonsense \n What will you do? \n 1: Walk Left \n 2: Walk Right \n 1;3";
+            story[9] = "This is text that explains nonsense \n What will you do? \n 1: Walk Left \n 2: Walk Right \n 1;3";
+        }  
 
         static void UserChoice()
         {
-            Console.WriteLine("What Will you do?");
 
             selection = Console.ReadLine();
+
+            ChoiceA = int.Parse(splitText[0]);
+            ChoiceB = int.Parse(splitText[1]);
 
             switch (selection) // find a way to make this dynamic to account for diffrent awnsers depending on the page
             {
                 case "1":
-                    pageNum = pageNum + 1;
-                    PageSelect();
+
+                    pageNum = ChoiceA;
+
+                    if (pageNum >= 10)
+                    {
+                        pageNum = 10;
+                    }                    
                     break;
 
                 case "2":
-                    pageNum = pageNum + 2;
-                    PageSelect();
+
+                    pageNum = ChoiceB;
+
+                    if (pageNum >= 10)
+                    {
+                        pageNum = 10;
+                    }
                     break;
 
                 case "3":
@@ -142,19 +125,29 @@ namespace Interactive_Fiction___Edmund
 
         static void FailText()
         {           
-            failureText[0] = "You've died";
-            failureText[1] = "You've died but diffrent";
-            failureText[2] = "You've died but painfully";
+            failureText[0] = "Text";
+            failureText[1] = "Text";
+            failureText[2] = "You've Died";
             failureText[3] = "text";
             failureText[4] = "text";
             failureText[5] = "text";
-            failureText[6] = "text";
+            failureText[6] = "You've died but painfully";
             failureText[7] = "text";
             failureText[8] = "text";
-            failureText[9] = "text";
+            failureText[9] = "You've died but diffrently";
+
+            Console.WriteLine(" ");
+            Console.WriteLine(failureText[pageNum]);
             
             isGameOver = true;
         }
 
+        static void SplitText()
+        {
+            textToSplit = story[pageNum];
+
+            textToSplit.Split(';'); // splits string into new strings on '_' characters
+            splitText = textToSplit.Split(';'); // creates an array of strngs based off of textToSplit            
+        }
     }
 }
