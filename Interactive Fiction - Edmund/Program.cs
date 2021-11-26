@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,6 +39,7 @@ namespace Interactive_Fiction___Edmund
                     UserChoice(); // determins player decision
                 }
                 // this is a test to see if this is the real repository
+                }         
         }
 
         static void PlotText()
