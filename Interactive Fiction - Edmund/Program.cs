@@ -76,8 +76,7 @@ namespace Interactive_Fiction___Edmund
                 Console.WriteLine(splitText[0]);
                 Console.WriteLine(splitText[1]);
                 Console.WriteLine(splitText[2]);
-            }
-            
+            }            
         }
 
         static void UserChoice()
@@ -126,7 +125,6 @@ namespace Interactive_Fiction___Edmund
             else
             {
                 isGameOver = true;
-
             }
         }
 
@@ -141,11 +139,9 @@ namespace Interactive_Fiction___Edmund
             playerChoiceB = int.Parse(splitText[4]);
         }
 
-
         static void MainMenu()
         {
-            //  insert ASCII text title screen here
-
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("                            _                                      _              ");
             Console.WriteLine("  /\\/\\    ___   _ __   ___ | |_  ___  _ __    /\\  /\\ _   _  _ __  | |_  ___  _ __ ");
             Console.WriteLine(" /    \\  / _ \\ | '_ \\ / __|| __|/ _ \\| '__|  / /_/ /| | | || '_ \\ | __|/ _ \\| '__|");
@@ -153,6 +149,7 @@ namespace Interactive_Fiction___Edmund
             Console.WriteLine("\\/    \\/ \\___/ |_| |_||___/ \\__|\\___||_|    \\/ /_/   \\__,_||_| |_| \\__|\\___||_|   ");
             Console.WriteLine("==================================================================================");
             Console.WriteLine("");
+            Console.ForegroundColor = ConsoleColor.White;
 
             Console.WriteLine("Press 1 to start\nPress 2 to continue\nPress 3 to exit");
             Console.WriteLine(" ");
@@ -163,9 +160,7 @@ namespace Interactive_Fiction___Edmund
             Console.WriteLine("'Monster Hunter' is a game series developed and published by CAPCOM");
             Console.ForegroundColor = ConsoleColor.White;
             
-
             MenuSelect();
-
         }
 
         static void MenuSelect()
