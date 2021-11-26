@@ -37,9 +37,7 @@ namespace Interactive_Fiction___Edmund
                     CheckText(); // checks if page is an ending or not
                     PageText(); // writes text                   
                     UserChoice(); // determins player decision
-                }
-                // this is a test to see if this is the real repository
-                }         
+                }        
         }
 
         static void PlotText()
@@ -148,11 +146,17 @@ namespace Interactive_Fiction___Edmund
         {
             //  insert ASCII text title screen here
 
-            Console.WriteLine("Monster Hunter! - An interactive story.");
-            Console.WriteLine("==============");
+            Console.WriteLine("                            _                                      _              ");
+            Console.WriteLine("  /\\/\\    ___   _ __   ___ | |_  ___  _ __    /\\  /\\ _   _  _ __  | |_  ___  _ __ ");
+            Console.WriteLine(" /    \\  / _ \\ | '_ \\ / __|| __|/ _ \\| '__|  / /_/ /| | | || '_ \\ | __|/ _ \\| '__|");
+            Console.WriteLine("/ /\\/\\ \\| (_) || | | |\\__ \\| |_|  __/| |    / __  / | |_| || | | || |_|  __/| |   ");
+            Console.WriteLine("\\/    \\/ \\___/ |_| |_||___/ \\__|\\___||_|    \\/ /_/   \\__,_||_| |_| \\__|\\___||_|   ");
+            Console.WriteLine("==================================================================================");
+            Console.WriteLine("");
+
             Console.WriteLine("Press 1 to start\nPress 2 to continue\nPress 3 to exit");
             Console.WriteLine(" ");
-            Console.WriteLine("By: Edmund Wohlmuth");
+            Console.WriteLine(" An interactive story By: Edmund Wohlmuth");
             Console.WriteLine(" ");
             Console.WriteLine(" ");
             Console.ForegroundColor = ConsoleColor.Red;
