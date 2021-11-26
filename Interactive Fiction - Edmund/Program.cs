@@ -37,8 +37,8 @@ namespace Interactive_Fiction___Edmund
                     CheckText(); // checks if page is an ending or not
                     PageText(); // writes text                   
                     UserChoice(); // determins player decision
-                }         
-            Console.ReadKey(true);
+                }
+                // this is a test to see if this is the real repository
         }
 
         static void PlotText()
@@ -68,43 +68,54 @@ namespace Interactive_Fiction___Edmund
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("Page " + pageNum); // display Page number (might make page 0 establishing text, and set it to read "establishing text" instead of page 0)
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine(splitText[0]);
-            Console.WriteLine(splitText[1]);
-            Console.WriteLine(splitText[2]);
+            if (isGameOver)
+            {
+                Console.WriteLine(story[pageNum]);
+            }
+            else
+            {
+                Console.WriteLine(splitText[0]);
+                Console.WriteLine(splitText[1]);
+                Console.WriteLine(splitText[2]);
+            }
+            
         }
 
         static void UserChoice()
         {
             selection = Console.ReadLine();
 
-            switch (selection)
+            if (!isGameOver)
             {
-                case "1":
+                switch (selection)
+                {
+                    case "1":
 
-                    pageNum = playerChoiceA;
-                    Console.Clear();
-                                     
-                    break;
+                        pageNum = playerChoiceA;
+                        Console.Clear();
 
-                case "2":
+                        break;
 
-                    pageNum = playerChoiceB;
-                    Console.Clear();
+                    case "2":
 
-                    break;
+                        pageNum = playerChoiceB;
+                        Console.Clear();
 
-                case "3":
-                    Console.WriteLine("Temp text would save game");
-                    break;
+                        break;
 
-                case "4":
-                    Environment.Exit(0);
-                    break;
+                    case "3":
+                        Console.WriteLine("Temp text would save game");
+                        break;
 
-                default: // basically the else statement
-                    Console.WriteLine(selection + " not recognised, Type 1 - 4 to continue");
-                    break;
-            }
+                    case "4":
+                        Environment.Exit(0);
+                        break;
+
+                    default: // basically the else statement
+                        Console.WriteLine(selection + " not recognised, Type 1 - 4 to continue");
+                        break;
+                }
+            }           
         }
 
         static void CheckText()
@@ -116,7 +127,7 @@ namespace Interactive_Fiction___Edmund
             else
             {
                 isGameOver = true;
-                PageText();
+
             }
         }
 
