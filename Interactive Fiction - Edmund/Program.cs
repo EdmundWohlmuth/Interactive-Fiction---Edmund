@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Interactive_Fiction___Edmund
 {
@@ -10,10 +11,9 @@ namespace Interactive_Fiction___Edmund
     {
         //decleration
 
-        static int storyLength = 16;
         static int pageNum; // element that determins page to be displayed
 
-        static string[] story = new string[storyLength]; // Stores the story / title & pages
+        static string[] story;
         static string[] splitText;
 
         static int playerChoiceA;  // response A
@@ -26,14 +26,19 @@ namespace Interactive_Fiction___Edmund
 
         static void Main(string[] args)
         {
+            // initilization
+
             pageNum = 0;
+            story = File.ReadAllLines(@"story.txt");
+
+            // ------------------------------------------------------------------------
 
             MainMenu();      
 
                 //gameplay loop
                 while (isGameOver == false) //gameloop (while not game over and is past Main Menu
                 {
-                    PlotText(); // establishes text to write
+                   // PlotText(); // establishes text to write
                     CheckText(); // checks if page is an ending or not
                     PageText(); // writes text                   
                     UserChoice(); // determins player decision
@@ -42,6 +47,7 @@ namespace Interactive_Fiction___Edmund
 
         static void PlotText()
         {
+            /* keeping this just in case
             // Story Text blocks
             story[0] = "You are a Monster Hunter, and on a routine hunt you've been ambushed by a Rathian!;Press 1 or 2 to progress the story;Press 3 to save, and 4 to Quit;1;1";
             story[1] = "The large fire-breathing wyvern bears upon you!;1: Parry and retreat;2: Roll to the left;2;4";
@@ -59,9 +65,32 @@ namespace Interactive_Fiction___Edmund
             story[13] = "The flight becomes too much and your grip on the Rathian releases, its a long, long fall to the ground, and you think there's no way to walk away from this as the ground meets your face and sudden darkness envelopes your world. You've died!"; // death 2
             story[14] = "You jump off the Rathian, as it flys up high and away. The End."; // win 1
             story[15] = "With your knife drawn you stab the Rathian in the eye, and using its body as a brace you survive the landing, resulting in an unexpected hunt to be sure, but a welcome one. The End."; // win 2
+            */
+        }
 
-        } 
-        
+        static void CheckText()
+        {
+            if (story[pageNum].Contains(";"))
+            {
+                SplitText();
+            }
+            else
+            {
+                isGameOver = true;
+            }
+        }
+
+        static void SplitText() // splits PlotText(); into readable text && decision values
+        {
+            textToSplit = story[pageNum];
+
+            textToSplit.Split(';'); // splits string into new strings on ';' characters
+            splitText = textToSplit.Split(';'); // creates an array of strngs based off of textToSplit
+
+            playerChoiceA = int.Parse(splitText[3]);
+            playerChoiceB = int.Parse(splitText[4]);
+        }
+
         static void PageText()
         {
             Console.ForegroundColor = ConsoleColor.White;
@@ -114,29 +143,6 @@ namespace Interactive_Fiction___Edmund
                         break;
                 }
             }           
-        }
-
-        static void CheckText()
-        {
-            if (story[pageNum].Contains(";"))
-            {
-                SplitText();
-            }
-            else
-            {
-                isGameOver = true;
-            }
-        }
-
-        static void SplitText() // splits PlotText(); into readable text && decision values
-        {
-            textToSplit = story[pageNum];
-
-            textToSplit.Split(';'); // splits string into new strings on ';' characters
-            splitText = textToSplit.Split(';'); // creates an array of strngs based off of textToSplit
-
-            playerChoiceA = int.Parse(splitText[3]);
-            playerChoiceB = int.Parse(splitText[4]);
         }
 
         static void MainMenu()
