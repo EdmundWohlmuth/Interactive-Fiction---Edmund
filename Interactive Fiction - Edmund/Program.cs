@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace Interactive_Fiction___Edmund
+namespace Monster_Hunter__An_Interactive_Story
 {
     class Program
     {
@@ -36,18 +36,24 @@ namespace Interactive_Fiction___Edmund
             // ------------------------------------------------------------------------
 
             SaveGameInit();
-            MainMenu();      
+            while (isGameOver == false)
+            {
+                MainMenu();
 
                 //gameplay loop
                 while (isGameOver == false) //gameloop (while not game over and is past Main Menu
                 {
-                    CheckText(); // checks if page is an ending or not
-                    PageText(); // writes text                   
-                    UserChoice(); // determins player decision
-                }        
+                    HasDelimiters(); // checks if page is an ending or not
+                    PrintPageText(); // writes text                   
+                    UserSelection(); // determins player decision
+                }
+
+                Console.Clear();
+                isGameOver = false;
+            }
         }
 
-        static void CheckText()
+        static void HasDelimiters()
         {
             if (story[pageNum].Contains(";"))
             {
@@ -70,11 +76,21 @@ namespace Interactive_Fiction___Edmund
             playerChoiceB = int.Parse(splitText[4]);
         }
 
-        static void PageText()
+        static void PrintPageText()
         {
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Page " + pageNum); // display Page number (might make page 0 establishing text, and set it to read "establishing text" instead of page 0)
+
+            if (pageNum == 0)
+            {
+                Console.WriteLine("Introduction");
+            }
+            else
+            {
+                Console.WriteLine("Page " + pageNum); // display Page number (might make page 0 establishing text, and set it to read "establishing text" instead of page 0)
+            }
+
             Console.ForegroundColor = ConsoleColor.Cyan;
+
             if (isGameOver)
             {
                 Console.WriteLine(story[pageNum]);
@@ -87,7 +103,7 @@ namespace Interactive_Fiction___Edmund
             }            
         }
 
-        static void UserChoice()
+        static void UserSelection()
         {
             selection = Console.ReadLine();
 
@@ -118,7 +134,9 @@ namespace Interactive_Fiction___Edmund
                         break;
 
                     case "4":
-                        Environment.Exit(0);
+
+                        isGameOver = true;
+
                         break;
 
                     default: // basically the else statement
@@ -130,8 +148,15 @@ namespace Interactive_Fiction___Edmund
 
         static void SaveGame()
         {
-            saveData = pageNum.ToString();
-            File.WriteAllText(path, saveData);
+            if (File.Exists(path))
+            {
+                saveData = pageNum.ToString();
+                File.WriteAllText(path, saveData);
+            }
+            else
+            {
+                SaveGameInit();
+            }           
         }
 
         static void SaveGameInit()
@@ -181,6 +206,7 @@ namespace Interactive_Fiction___Edmund
 
                 case "2":
 
+                    Console.Clear();
                     saveData = File.ReadAllText(@"save.txt");
                     pageNum = int.Parse(saveData);
 
