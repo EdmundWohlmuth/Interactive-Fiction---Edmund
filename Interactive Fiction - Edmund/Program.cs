@@ -43,6 +43,7 @@ namespace Monster_Hunter__An_Interactive_Story
                 //gameplay loop
                 while (isGameOver == false) //gameloop (while not game over and is past Main Menu
                 {
+                    ErrorChecking(); // Checks to see if pageNum is in range
                     HasDelimiters(); // checks if page is an ending or not
                     PrintPageText(); // writes text                   
                     UserSelection(); // determins player decision
@@ -51,6 +52,20 @@ namespace Monster_Hunter__An_Interactive_Story
                 Console.Clear();
                 isGameOver = false;
             }
+        }
+
+        static void ErrorChecking()
+        {
+            if (pageNum > story.Length || pageNum < story.Length - story.Length) // R E A L L Y  jank
+            {
+                Console.Clear();
+                pageNum = 0;
+                isGameOver = true;
+
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(" ERROR - Page Number is outside the established range of the story. Press any key to quit to menu");
+            }
+
         }
 
         static void HasDelimiters()
@@ -72,8 +87,9 @@ namespace Monster_Hunter__An_Interactive_Story
             textToSplit.Split(';'); // splits string into new strings on ';' characters
             splitText = textToSplit.Split(';'); // creates an array of strngs based off of textToSplit
 
-            playerChoiceA = int.Parse(splitText[3]);
-            playerChoiceB = int.Parse(splitText[4]);
+
+            int.TryParse(splitText[splitText.Length - 2], out playerChoiceA); // make the two dilimiters story.Lenght - 2 or something, and use TryParse
+            int.TryParse(splitText[splitText.Length - 1], out playerChoiceB); // -----------------------------------------------------------------------
         }
 
         static void PrintPageText()
