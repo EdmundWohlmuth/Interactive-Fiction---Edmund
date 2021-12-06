@@ -22,7 +22,9 @@ namespace Monster_Hunter__An_Interactive_Story
         static string selection;
         static string textToSplit;
         static string saveData;
-        static string path = @"save.txt";
+
+        static string savePath = @"save.txt";
+        static string storyPath = @"story.txt";
 
         static bool isGameOver;
 
@@ -56,6 +58,24 @@ namespace Monster_Hunter__An_Interactive_Story
 
         static void ErrorChecking()
         {
+            if (!File.Exists(storyPath))
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("ERROR - story.txt not found. Press any key to quit.");
+                Console.ReadKey(true);
+                Environment.Exit(0);
+            }
+
+            if (story[pageNum].Length == 0)
+            {
+                isGameOver = true;
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("ERROR - String " + pageNum + " is unfinished. Press any key to quit.");
+                pageNum = 0;
+                Console.ReadKey(true);
+                Environment.Exit(0);
+            }
+
             if (pageNum > story.Length || pageNum < story.Length - story.Length) // R E A L L Y  jank
             {
                 Console.Clear();
@@ -63,7 +83,8 @@ namespace Monster_Hunter__An_Interactive_Story
                 isGameOver = true;
 
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(" ERROR - Page Number is outside the established range of the story. Press any key to quit to menu");
+                Console.WriteLine("ERROR - Page Number is outside the established range of the story. Press any key to quit to menu");
+                Console.ReadKey(true);
             }
 
         }
@@ -73,7 +94,7 @@ namespace Monster_Hunter__An_Interactive_Story
             if (story[pageNum].Contains(";"))
             {
                 SplitText();
-            }
+            }          
             else
             {
                 isGameOver = true;
@@ -113,9 +134,11 @@ namespace Monster_Hunter__An_Interactive_Story
             }
             else
             {
-                Console.WriteLine(splitText[0]);
-                Console.WriteLine(splitText[1]);
-                Console.WriteLine(splitText[2]);
+                for (int i = 0; i < splitText.Length - 2; i++)
+                {
+                    Console.WriteLine(splitText[i]);
+                }
+
             }            
         }
 
@@ -164,10 +187,10 @@ namespace Monster_Hunter__An_Interactive_Story
 
         static void SaveGame()
         {
-            if (File.Exists(path))
+            if (File.Exists(savePath))
             {
                 saveData = pageNum.ToString();
-                File.WriteAllText(path, saveData);
+                File.WriteAllText(savePath, saveData);
             }
             else
             {
@@ -177,10 +200,10 @@ namespace Monster_Hunter__An_Interactive_Story
 
         static void SaveGameInit()
         {
-            if (!File.Exists(path))
+            if (!File.Exists(savePath))
             {
                 saveData = pageNum.ToString();
-                File.WriteAllText(path, saveData);
+                File.WriteAllText(savePath, saveData);
             }
         }
 
