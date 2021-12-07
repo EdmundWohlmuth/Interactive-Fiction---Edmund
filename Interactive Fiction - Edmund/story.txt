@@ -1,6 +1,6 @@
 You are a Monster Hunter, and on a routine hunt you've been ambushed by a Rathian!;Press 1 for the first choice;Press 2 for the second Chocie;Press 3 to save;Press 4 to Quit;Press 1 or 2 to continue;1;1
 The large fire-breathing wyvern bears upon you!;Press 1 to Parry and retreat;Press 2 to Roll to the left;Press 3 to save;Press 4 to Quit to menu;2;4
-You swing your sword in an arch, fire singeing your armor;Press 1 to Heavy overhead swing at the Rathian;2: Riposte and sidestep;Press 3 to save;Press 4 to Quit to menu;3;4
+You swing your sword in an arch, fire singeing your armor;Press 1 to Heavy overhead swing at the Rathian;Press 2 to Riposte and sidestep;Press 3 to save;Press 4 to Quit to menu;3;4
 You prepare a heavy swing, but the Rathian is faster, a fireball strikes you in the chest and you're on the ground!;Press 1 to Get up!;Press 2 to Roll left!;Press 3 to save;Press 4 to Quit to menu;5;7
 Your evasive moves avoid a dangerous strike, and you prepare a heavy hit in return;Press 1 to Strike the head;Press 2 to Go for the legs;Press 3 to save;Press 4 to Quit to menu;3;6
 The time it takes for you too get up is not fast enough, as the Rathian's toothy maw closes down on you. You've Died

@@ -1,4 +1,5 @@
 using System;
+using System.Security.Cryptography;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,10 +24,15 @@ namespace Monster_Hunter__An_Interactive_Story
         static string textToSplit;
         static string saveData;
 
+        static string SourceData;
+        static byte[] tmpSource;
+        static byte[] tmpHash;
+
         static string savePath = @"save.txt";
-        static string storyPath = @"story.txt";
+        static string storyPath = @"story.txt";      
 
         static bool isGameOver;
+        static bool willQuitApp;
 
         static void Main(string[] args)
         {
@@ -35,15 +41,19 @@ namespace Monster_Hunter__An_Interactive_Story
             pageNum = 0;
             story = File.ReadAllLines(@"story.txt");
 
+            willQuitApp = false;
+
             // ------------------------------------------------------------------------
 
+            HashCheck();
             SaveGameInit();
-            while (isGameOver == false)
+
+            while (isGameOver == false || willQuitApp == true)
             {
                 MainMenu();
 
                 //gameplay loop
-                while (isGameOver == false) //gameloop (while not game over and is past Main Menu
+                while (isGameOver == false || willQuitApp == true) //gameloop (while not game over and is past Main Menu
                 {
                     ErrorChecking(); // Checks to see if pageNum is in range
                     HasDelimiters(); // checks if page is an ending or not
@@ -55,6 +65,8 @@ namespace Monster_Hunter__An_Interactive_Story
                 isGameOver = false;
             }
         }
+
+            // ------------------------- GAMEPLAYLOOP ------------------------------
 
         static void ErrorChecking()
         {
@@ -87,6 +99,31 @@ namespace Monster_Hunter__An_Interactive_Story
                 Console.ReadKey(true);
             }
 
+            HashCheck();
+        }
+
+        static void HashCheck()
+        {           
+            SourceData = File.ReadAllText(storyPath);
+            tmpSource = ASCIIEncoding.ASCII.GetBytes(SourceData);
+            tmpHash = new MD5CryptoServiceProvider().ComputeHash(tmpSource); 
+
+            if (ByteArrayToString(tmpHash) != "6E8EC0C5E2091FBC90C5AB3613756494")
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("ERROR - story.txt is corrupted. Press any key to quit");
+            }
+        }
+
+        static string ByteArrayToString(byte[] arrInput)
+        {
+            int i;
+            StringBuilder sOutput = new StringBuilder(arrInput.Length);
+            for (i = 0; i < arrInput.Length; i++)
+            {
+                sOutput.Append(arrInput[i].ToString("X2"));
+            }
+            return sOutput.ToString();
         }
 
         static void HasDelimiters()
@@ -107,7 +144,6 @@ namespace Monster_Hunter__An_Interactive_Story
 
             textToSplit.Split(';'); // splits string into new strings on ';' characters
             splitText = textToSplit.Split(';'); // creates an array of strngs based off of textToSplit
-
 
             int.TryParse(splitText[splitText.Length - 2], out playerChoiceA); // make the two dilimiters story.Lenght - 2 or something, and use TryParse
             int.TryParse(splitText[splitText.Length - 1], out playerChoiceB); // -----------------------------------------------------------------------
@@ -185,6 +221,8 @@ namespace Monster_Hunter__An_Interactive_Story
             }           
         }
 
+            // ----------------------------- SAVE GAME --------------------------------------
+
         static void SaveGame()
         {
             if (File.Exists(savePath))
@@ -206,6 +244,8 @@ namespace Monster_Hunter__An_Interactive_Story
                 File.WriteAllText(savePath, saveData);
             }
         }
+
+            // ------------------------- MAIN MENU ----------------------------------------
 
         static void MainMenu()
         {
@@ -246,7 +286,7 @@ namespace Monster_Hunter__An_Interactive_Story
                 case "2":
 
                     Console.Clear();
-                    saveData = File.ReadAllText(@"save.txt");
+                    saveData = File.ReadAllText(savePath);
                     pageNum = int.Parse(saveData);
 
                     break;
