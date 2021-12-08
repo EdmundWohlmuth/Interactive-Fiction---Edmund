@@ -32,7 +32,7 @@ namespace Monster_Hunter__An_Interactive_Story
         static string storyPath = @"story.txt";      
 
         static bool isGameOver;
-        static bool willQuitApp;
+        static bool quitGame;
 
         static void Main(string[] args)
         {
@@ -41,19 +41,19 @@ namespace Monster_Hunter__An_Interactive_Story
             pageNum = 0;
             story = File.ReadAllLines(@"story.txt");
 
-            willQuitApp = false;
+            quitGame = false;
 
             // ------------------------------------------------------------------------
 
             HashCheck();
             SaveGameInit();
 
-            while (isGameOver == false || willQuitApp == true)
+            while (isGameOver == false)
             {
                 MainMenu();
 
                 //gameplay loop
-                while (isGameOver == false || willQuitApp == true) //gameloop (while not game over and is past Main Menu
+                while (isGameOver == false) //gameloop (while not game over / quiting the game and is past Main Menu
                 {
                     ErrorChecking(); // Checks to see if pageNum is in range
                     HasDelimiters(); // checks if page is an ending or not
@@ -62,11 +62,17 @@ namespace Monster_Hunter__An_Interactive_Story
                 }
 
                 Console.Clear();
-                isGameOver = false;
+
+                if (quitGame == false)
+                {
+                    isGameOver = false;
+                }
+                
+                
             }
         }
 
-            // ------------------------- GAMEPLAYLOOP ------------------------------
+            // ------------------------- ERROR CHECK / HASH ------------------------------
 
         static void ErrorChecking()
         {
@@ -75,7 +81,9 @@ namespace Monster_Hunter__An_Interactive_Story
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("ERROR - story.txt not found. Press any key to quit.");
                 Console.ReadKey(true);
-                Environment.Exit(0);
+
+                quitGame = true;
+                isGameOver = true;
             }
 
             if (story[pageNum].Length == 0)
@@ -85,7 +93,9 @@ namespace Monster_Hunter__An_Interactive_Story
                 Console.WriteLine("ERROR - String " + pageNum + " is unfinished. Press any key to quit.");
                 pageNum = 0;
                 Console.ReadKey(true);
-                Environment.Exit(0);
+
+                quitGame = true;
+                isGameOver = true;
             }
 
             if (pageNum > story.Length || pageNum < story.Length - story.Length) // R E A L L Y  jank
@@ -97,6 +107,9 @@ namespace Monster_Hunter__An_Interactive_Story
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("ERROR - Page Number is outside the established range of the story. Press any key to quit to menu");
                 Console.ReadKey(true);
+
+                quitGame = true;
+                isGameOver = true;
             }
 
             HashCheck();
@@ -112,6 +125,10 @@ namespace Monster_Hunter__An_Interactive_Story
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("ERROR - story.txt is corrupted. Press any key to quit");
+                Console.ReadKey(true);
+
+                quitGame = true;
+                isGameOver = true;
             }
         }
 
@@ -125,6 +142,7 @@ namespace Monster_Hunter__An_Interactive_Story
             }
             return sOutput.ToString();
         }
+            // -------------- GAMEPLAY LOOP ------------------------------------
 
         static void HasDelimiters()
         {
@@ -293,7 +311,8 @@ namespace Monster_Hunter__An_Interactive_Story
 
                 case "3":
 
-                    Environment.Exit(0);
+                    quitGame = true;
+                    isGameOver = true;
 
                     break;
 
