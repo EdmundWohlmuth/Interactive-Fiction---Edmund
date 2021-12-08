@@ -121,7 +121,7 @@ namespace Monster_Hunter__An_Interactive_Story
             tmpSource = ASCIIEncoding.ASCII.GetBytes(SourceData);
             tmpHash = new MD5CryptoServiceProvider().ComputeHash(tmpSource); 
 
-            if (ByteArrayToString(tmpHash) != "6E8EC0C5E2091FBC90C5AB3613756494")
+            if (ByteArrayToString(tmpHash) != "6E8EC0C5E2091FBC90C5AB3613756494") // hard coded but within scope of project
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("ERROR - story.txt is corrupted. Press any key to quit");
@@ -163,8 +163,8 @@ namespace Monster_Hunter__An_Interactive_Story
             textToSplit.Split(';'); // splits string into new strings on ';' characters
             splitText = textToSplit.Split(';'); // creates an array of strngs based off of textToSplit
 
-            int.TryParse(splitText[splitText.Length - 2], out playerChoiceA); // make the two dilimiters story.Lenght - 2 or something, and use TryParse
-            int.TryParse(splitText[splitText.Length - 1], out playerChoiceB); // -----------------------------------------------------------------------
+            int.TryParse(splitText[splitText.Length - 2], out playerChoiceA); // Checks the last two strings to be used in page navigation - errors blocked by hash code
+            int.TryParse(splitText[splitText.Length - 1], out playerChoiceB); // ---------------------------------------------------------------------------------------
         }
 
         static void PrintPageText()
@@ -177,20 +177,20 @@ namespace Monster_Hunter__An_Interactive_Story
             }
             else
             {
-                Console.WriteLine("Page " + pageNum); // display Page number (might make page 0 establishing text, and set it to read "establishing text" instead of page 0)
+                Console.WriteLine("Page " + pageNum); // Display page number
             }
 
             Console.ForegroundColor = ConsoleColor.Cyan;
 
             if (isGameOver)
             {
-                Console.WriteLine(story[pageNum]);
+                Print(story[pageNum]);
             }
             else
             {
                 for (int i = 0; i < splitText.Length - 2; i++)
                 {
-                    Console.WriteLine(splitText[i]);
+                    Print(splitText[i]);
                 }
 
             }            
@@ -233,10 +233,24 @@ namespace Monster_Hunter__An_Interactive_Story
                         break;
 
                     default: // basically the else statement
+
                         Console.WriteLine(selection + " not recognised, Type 1 - 4 to continue");
+
                         break;
                 }
             }           
+        }
+
+            // ---------------------------- TEXT DISPLAY ------------------------------------
+
+        public static void Print(string text, int delay = 25)
+        {
+            foreach (char c in text)
+            {
+                Console.Write(c);
+                System.Threading.Thread.Sleep(delay);
+            }
+            Console.WriteLine();
         }
 
             // ----------------------------- SAVE GAME --------------------------------------
@@ -317,7 +331,9 @@ namespace Monster_Hunter__An_Interactive_Story
                     break;
 
                 default:
+
                     Console.WriteLine(menuSelect + " Not recognised");
+
                     break;
             }
         }
