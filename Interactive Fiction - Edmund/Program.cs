@@ -66,9 +66,7 @@ namespace Monster_Hunter__An_Interactive_Story
                 if (quitGame == false)
                 {
                     isGameOver = false;
-                }
-                
-                
+                }                              
             }
         }
 
@@ -90,7 +88,7 @@ namespace Monster_Hunter__An_Interactive_Story
             {
                 isGameOver = true;
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("ERROR - String " + pageNum + " is unfinished. Press any key to quit.");
+                Console.WriteLine("ERROR - String " + pageNum + " is empty. Press any key to quit.");
                 pageNum = 0;
                 Console.ReadKey(true);
 
