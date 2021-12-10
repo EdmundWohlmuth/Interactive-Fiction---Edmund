@@ -74,7 +74,7 @@ namespace Monster_Hunter__An_Interactive_Story
 
         static void ErrorChecking()
         {
-            if (!File.Exists(storyPath))
+            if (!File.Exists(storyPath)) // checks if file exists
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("ERROR - story.txt not found. Press any key to quit.");
@@ -84,7 +84,7 @@ namespace Monster_Hunter__An_Interactive_Story
                 isGameOver = true;
             }
 
-            if (story[pageNum].Length == 0)
+            if (story[pageNum].Length == 0) // ensures page isn't empty
             {
                 isGameOver = true;
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -96,7 +96,7 @@ namespace Monster_Hunter__An_Interactive_Story
                 isGameOver = true;
             }
 
-            if (pageNum > story.Length || pageNum < story.Length - story.Length) // R E A L L Y  jank
+            if (pageNum > story.Length || pageNum < story.Length - story.Length) // checks if story is witthin array range
             {
                 Console.Clear();
                 pageNum = 0;
@@ -113,7 +113,7 @@ namespace Monster_Hunter__An_Interactive_Story
             HashCheck();
         }
 
-        static void HashCheck()
+        static void HashCheck() // checks to see if HASH is valid - locks down any unauthorised changes to story.txt
         {           
             SourceData = File.ReadAllText(storyPath);
             tmpSource = ASCIIEncoding.ASCII.GetBytes(SourceData);
@@ -130,7 +130,7 @@ namespace Monster_Hunter__An_Interactive_Story
             }
         }
 
-        static string ByteArrayToString(byte[] arrInput)
+        static string ByteArrayToString(byte[] arrInput) // creates HASH
         {
             int i;
             StringBuilder sOutput = new StringBuilder(arrInput.Length);
@@ -142,7 +142,7 @@ namespace Monster_Hunter__An_Interactive_Story
         }
             // -------------- GAMEPLAY LOOP ------------------------------------
 
-        static void HasDelimiters()
+        static void HasDelimiters() // checks to see if string has dilimiters
         {
             if (story[pageNum].Contains(";"))
             {
@@ -165,7 +165,7 @@ namespace Monster_Hunter__An_Interactive_Story
             int.TryParse(splitText[splitText.Length - 1], out playerChoiceB); // ---------------------------------------------------------------------------------------
         }
 
-        static void PrintPageText()
+        static void PrintPageText() // prints the story and options
         {
             Console.ForegroundColor = ConsoleColor.White;
 
@@ -194,7 +194,7 @@ namespace Monster_Hunter__An_Interactive_Story
             }            
         }
 
-        static void UserSelection()
+        static void UserSelection() // switich statement for player choice **Decided to keep the enter key and press enter style system as personal choice
         {
             selection = Console.ReadLine();
 
@@ -241,7 +241,7 @@ namespace Monster_Hunter__An_Interactive_Story
 
             // ---------------------------- TEXT DISPLAY ------------------------------------
 
-        public static void Print(string text, int delay = 25)
+        public static void Print(string text, int delay = 25) // slowly prints out text
         {
             foreach (char c in text)
             {
@@ -253,7 +253,7 @@ namespace Monster_Hunter__An_Interactive_Story
 
             // ----------------------------- SAVE GAME --------------------------------------
 
-        static void SaveGame()
+        static void SaveGame() //checks to see if file exists and saves
         {
             if (File.Exists(savePath))
             {
@@ -266,7 +266,7 @@ namespace Monster_Hunter__An_Interactive_Story
             }           
         }
 
-        static void SaveGameInit()
+        static void SaveGameInit() // runs at start to check if save file is present as well as if save file is not present, it creates a new save.txt
         {
             if (!File.Exists(savePath))
             {
@@ -301,7 +301,7 @@ namespace Monster_Hunter__An_Interactive_Story
             MenuSelect();
         }
 
-        static void MenuSelect()
+        static void MenuSelect() // menu selection for player input
         {
             string menuSelect = Console.ReadLine();
 
