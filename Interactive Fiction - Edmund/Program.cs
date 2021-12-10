@@ -232,7 +232,10 @@ namespace Monster_Hunter__An_Interactive_Story
 
                     default: // basically the else statement
 
-                        Console.WriteLine(selection + " not recognised, Type 1 - 4 to continue");
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine(selection + " not recognised, Press any key to try again");
+                        Console.ReadKey();
+                        Console.Clear();
 
                         break;
                 }
@@ -330,7 +333,11 @@ namespace Monster_Hunter__An_Interactive_Story
 
                 default:
 
-                    Console.WriteLine(menuSelect + " Not recognised");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(menuSelect + " Not recognised, Press any key to continue");
+                    Console.ReadKey();
+                    Console.Clear();
+                    isGameOver = true;
 
                     break;
             }
