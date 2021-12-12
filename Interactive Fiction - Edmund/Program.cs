@@ -29,7 +29,13 @@ namespace Monster_Hunter__An_Interactive_Story
         static byte[] tmpHash;
 
         static string savePath = @"save.txt";
-        static string storyPath = @"story.txt";      
+        static string storyPath = @"story.txt"; 
+        static string achivementsPath = @"achivement.txt";
+
+        static bool endOne = false;
+        static bool endTwo = false;
+        static bool endThree = false;
+        static bool endFour = false;
 
         static bool isGameOver;
         static bool quitGame;
@@ -50,6 +56,7 @@ namespace Monster_Hunter__An_Interactive_Story
 
             while (isGameOver == false)
             {
+                AchivementsCheck();
                 MainMenu();
 
                 //gameplay loop
@@ -66,11 +73,16 @@ namespace Monster_Hunter__An_Interactive_Story
                 if (quitGame == false)
                 {
                     isGameOver = false;
+<<<<<<< HEAD
+                }
+                               
+=======
                 }                              
+>>>>>>> 90772fe7394fe1b5ab745a17f090222ac74ddd79
             }
         }
 
-            // ------------------------- ERROR CHECK / HASH ------------------------------
+            // ------------------------- ERROR CHECK ------------------------------
 
         static void ErrorChecking()
         {
@@ -113,7 +125,13 @@ namespace Monster_Hunter__An_Interactive_Story
             HashCheck();
         }
 
+<<<<<<< HEAD
+            // ----------------- HASH CODE --------------------------------------
+
+        static void HashCheck()
+=======
         static void HashCheck() // checks to see if HASH is valid - locks down any unauthorised changes to story.txt
+>>>>>>> 90772fe7394fe1b5ab745a17f090222ac74ddd79
         {           
             SourceData = File.ReadAllText(storyPath);
             tmpSource = ASCIIEncoding.ASCII.GetBytes(SourceData);
@@ -150,6 +168,7 @@ namespace Monster_Hunter__An_Interactive_Story
             }          
             else
             {
+                AchivementsCheck();
                 isGameOver = true;
             }
         }
@@ -161,8 +180,25 @@ namespace Monster_Hunter__An_Interactive_Story
             textToSplit.Split(';'); // splits string into new strings on ';' characters
             splitText = textToSplit.Split(';'); // creates an array of strngs based off of textToSplit
 
-            int.TryParse(splitText[splitText.Length - 2], out playerChoiceA); // Checks the last two strings to be used in page navigation - errors blocked by hash code
-            int.TryParse(splitText[splitText.Length - 1], out playerChoiceB); // ---------------------------------------------------------------------------------------
+            bool optionOneSuccess = int.TryParse(splitText[splitText.Length - 2], out playerChoiceA); // Checks the last two strings to be used in page navigation - errors blocked by hash code
+            bool optionTwoSuccess = int.TryParse(splitText[splitText.Length - 1], out playerChoiceB); // ---------------------------------------------------------------------------------------
+
+            if (!optionOneSuccess || !optionTwoSuccess)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+
+                if (!optionOneSuccess)
+                {
+                    Console.WriteLine("ERROR - " + playerChoiceA + " is an invalid int, press any key to exit.");
+                }
+                else
+                {
+                    Console.WriteLine("ERROR - " + playerChoiceB + " is an invalid int, press any key to exit.");
+                }
+
+                isGameOver = true;
+                quitGame = true;
+            }
         }
 
         static void PrintPageText() // prints the story and options
@@ -278,6 +314,85 @@ namespace Monster_Hunter__An_Interactive_Story
             }
         }
 
+            // ------------------------- ACHIVEMENTS ---------------------------------------
+        static void AchivementsCheck()
+        {
+            if (pageNum == 5)
+            {
+                
+            }
+            if (pageNum == 14)
+            {
+
+            }
+            if (pageNum == 13)
+            {
+
+            }
+            if (pageNum == 15)
+            {
+
+            }
+
+
+            string achivementList = File.ReadAllText(achivementsPath);
+
+            if (achivementList.Contains("a"))
+            {
+                endOne = true;
+            }
+            if (achivementList.Contains("b"))
+            {
+                endTwo = true;
+            }
+            if (achivementList.Contains("c"))
+            {
+                endThree = true;
+            }
+            if (achivementList.Contains("d"))
+            {
+                endFour = true;
+            }
+        }
+
+        static void AchivementsMenu()
+        {
+            if (!endOne || !endTwo || !endThree || !endFour)
+            {
+                Print("You have not unlocked any achivements!\nPlay the game to aquire some achivements!");
+                Console.WriteLine();
+            }
+
+            if (endOne == true)
+            {
+                Console.WriteLine("Lunch");
+                Console.WriteLine("You had spirit but at the end of the day, the Rathian bested you and you're now no more than dragon food.");
+                Console.WriteLine();
+            }
+            if (endTwo == true)
+            {
+                Console.WriteLine("Survival");
+                Console.WriteLine("Your Martial prowess surpassed the might of the Rathian and you forced it to flee! but maybe you could have brought it down...");
+                Console.WriteLine();
+            }
+            if (endThree == true)
+            {
+                Console.WriteLine("A long way down");
+                Console.WriteLine("It was an inopportune time to fall of the Rathian, and now you're nothing more than a Monster Hunter Pancake.");
+                Console.WriteLine();
+            }
+            if (endFour == true)
+            {
+                Console.WriteLine("Monster Hunter");
+                Console.WriteLine("Against all odds and one helluva ride you were able to take down the flying wyvern Rathian!");
+                Console.WriteLine();
+            }
+
+            Print("Press any key to return to the Main Menu");
+            Console.ReadKey(true);
+            isGameOver = true;
+        }
+
             // ------------------------- MAIN MENU ----------------------------------------
 
         static void MainMenu()
@@ -292,9 +407,9 @@ namespace Monster_Hunter__An_Interactive_Story
             Console.WriteLine("");
             Console.ForegroundColor = ConsoleColor.White;
 
-            Console.WriteLine("Press 1 to start\nPress 2 to continue\nPress 3 to exit");
+            Console.WriteLine("Press 1 to start\nPress 2 to continue\nPress 3 to view Achivements\nPress 4 to exit");
             Console.WriteLine(" ");
-            Console.WriteLine(" An interactive story By: Edmund Wohlmuth");
+            Print(" An interactive story By: Edmund Wohlmuth");
             Console.WriteLine(" ");
             Console.WriteLine(" ");
             Console.ForegroundColor = ConsoleColor.Red;
@@ -325,6 +440,13 @@ namespace Monster_Hunter__An_Interactive_Story
                     break;
 
                 case "3":
+
+                    Console.Clear();
+                    AchivementsMenu();
+
+                    break;
+
+                case "4":
 
                     quitGame = true;
                     isGameOver = true;
