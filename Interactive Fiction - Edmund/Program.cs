@@ -20,6 +20,7 @@ namespace Monster_Hunter__An_Interactive_Story
 
         static int playerChoiceA;  // response A
         static int playerChoiceB;  // response B
+        static int achivementInt;
 
         static string selection;
         static string textToSplit;
@@ -49,6 +50,7 @@ namespace Monster_Hunter__An_Interactive_Story
             // initilization
 
             pageNum = 0;
+            achivementInt = 0;
             story = File.ReadAllLines(storyPath);
             achivements = File.ReadAllLines(achivementsPath);
 
@@ -324,6 +326,7 @@ namespace Monster_Hunter__An_Interactive_Story
                 Console.WriteLine();
 
                 achivementsCheck = "a";
+                achivementInt++;
                 AchivementHash();
             }
 
@@ -334,6 +337,7 @@ namespace Monster_Hunter__An_Interactive_Story
                 Console.WriteLine();
 
                 achivementsCheck = "b";
+                achivementInt++;
                 AchivementHash();
             }
 
@@ -344,6 +348,7 @@ namespace Monster_Hunter__An_Interactive_Story
                 Console.WriteLine();
 
                 achivementsCheck = "c";
+                achivementInt++;
                 AchivementHash();
             }
 
@@ -354,6 +359,7 @@ namespace Monster_Hunter__An_Interactive_Story
                 Console.WriteLine();
 
                 achivementsCheck = "d";
+                achivementInt++;
                 AchivementHash();
             }
 
@@ -378,12 +384,10 @@ namespace Monster_Hunter__An_Interactive_Story
             string[] newSplit;
             string achivementsToSplit;
 
-            for (int x = 0; x < 4; x++)
-            {
-                achivementsToSplit = achivements[x];
-                newSplit = achivementsToSplit.Split(':');
+            achivementsToSplit = achivements[achivementInt];
+            newSplit = achivementsToSplit.Split(':');
 
-                for (int i = 0; i <= achivements.Length; i++)
+                for (int i = 0; i <= newSplit.Length -1; i++)
                 {
                     if (newSplit[i] == "0CC175B9C0F1B6A831C399E269772661")
                     {
@@ -401,15 +405,14 @@ namespace Monster_Hunter__An_Interactive_Story
                     {
                         endFour = true;
                     }
-                }
-            }
-
-            
+                }                     
         }
 
 
         static void AchivementsMenu()
         {
+            AchivementSplit();
+
             if (endOne == true)
             {
                 Console.WriteLine("Lunch");
