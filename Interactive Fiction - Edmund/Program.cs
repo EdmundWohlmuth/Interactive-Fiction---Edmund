@@ -45,8 +45,7 @@ namespace Monster_Hunter__An_Interactive_Story
             // initilization
 
             pageNum = 0;
-            story = File.ReadAllLines(@"story.txt");
-            
+            story = File.ReadAllLines(@"story.txt");           
 
             quitGame = false;
 
@@ -364,12 +363,8 @@ namespace Monster_Hunter__An_Interactive_Story
                 endFour = true;
             }
 
-            else
-            {
-                return;
-            }
             // run a new hash here to rewrite the old one?
-
+                   
         }        
 
         static void AchivementsMenu()
