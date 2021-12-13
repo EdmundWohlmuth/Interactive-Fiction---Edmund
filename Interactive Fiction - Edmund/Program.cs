@@ -46,6 +46,7 @@ namespace Monster_Hunter__An_Interactive_Story
 
             pageNum = 0;
             story = File.ReadAllLines(@"story.txt");
+            
 
             quitGame = false;
 
@@ -72,13 +73,9 @@ namespace Monster_Hunter__An_Interactive_Story
 
                 if (quitGame == false)
                 {
-                    isGameOver = false;
-<<<<<<< HEAD
-                }
-                               
-=======
+                    isGameOver = false;                             
                 }                              
->>>>>>> 90772fe7394fe1b5ab745a17f090222ac74ddd79
+
             }
         }
 
@@ -124,14 +121,9 @@ namespace Monster_Hunter__An_Interactive_Story
 
             HashCheck();
         }
-
-<<<<<<< HEAD
             // ----------------- HASH CODE --------------------------------------
 
-        static void HashCheck()
-=======
         static void HashCheck() // checks to see if HASH is valid - locks down any unauthorised changes to story.txt
->>>>>>> 90772fe7394fe1b5ab745a17f090222ac74ddd79
         {           
             SourceData = File.ReadAllText(storyPath);
             tmpSource = ASCIIEncoding.ASCII.GetBytes(SourceData);
@@ -169,7 +161,7 @@ namespace Monster_Hunter__An_Interactive_Story
             else
             {
                 AchivementsCheck();
-                isGameOver = true;
+                isGameOver = true;             
             }
         }
 
@@ -317,74 +309,98 @@ namespace Monster_Hunter__An_Interactive_Story
             // ------------------------- ACHIVEMENTS ---------------------------------------
         static void AchivementsCheck()
         {
-            if (pageNum == 5)
-            {
-                
-            }
-            if (pageNum == 14)
-            {
-
-            }
-            if (pageNum == 13)
-            {
-
-            }
-            if (pageNum == 15)
-            {
-
-            }
-
-
             string achivementList = File.ReadAllText(achivementsPath);
+            Console.ForegroundColor = ConsoleColor.Yellow;
 
-            if (achivementList.Contains("a"))
+            if (pageNum == 5 && !achivementList.Contains("a"))
+            {
+                endOne = true;
+                Console.WriteLine("Achivement unlocked: Lunch");
+                Console.WriteLine();
+
+                File.AppendAllText(achivementsPath, "a");
+            }
+            else if (achivementList.Contains("a"))
             {
                 endOne = true;
             }
-            if (achivementList.Contains("b"))
+
+            if (pageNum == 14 && !achivementList.Contains("b"))
+            {
+                endTwo = true;                
+                Console.WriteLine("Achivement unlocked: Survival");
+                Console.WriteLine();
+
+                File.AppendAllText(achivementsPath, "b");
+            }
+            else if (achivementList.Contains("b"))
             {
                 endTwo = true;
             }
-            if (achivementList.Contains("c"))
+
+            if (pageNum == 13 && !achivementList.Contains("c"))
+            {
+                endThree = true;
+                Console.WriteLine("Achivement unlocked: A long way down");
+                Console.WriteLine();
+
+                File.AppendAllText(achivementsPath, "c");
+            }
+            else if (achivementList.Contains("c"))
             {
                 endThree = true;
             }
-            if (achivementList.Contains("d"))
+
+            if (pageNum == 15 && !achivementList.Contains("d"))
+            {
+                endFour = true;
+                Console.WriteLine("Achivement unlocked: Monster Hunter");
+                Console.WriteLine();
+
+                File.AppendAllText(achivementsPath, "d");
+            }
+            else if (achivementList.Contains("d"))
             {
                 endFour = true;
             }
-        }
+
+            else
+            {
+                return;
+            }
+            // run a new hash here to rewrite the old one?
+
+        }        
 
         static void AchivementsMenu()
         {
-            if (!endOne || !endTwo || !endThree || !endFour)
-            {
-                Print("You have not unlocked any achivements!\nPlay the game to aquire some achivements!");
-                Console.WriteLine();
-            }
-
             if (endOne == true)
             {
                 Console.WriteLine("Lunch");
                 Console.WriteLine("You had spirit but at the end of the day, the Rathian bested you and you're now no more than dragon food.");
                 Console.WriteLine();
             }
-            if (endTwo == true)
+            else if (endTwo == true)
             {
                 Console.WriteLine("Survival");
                 Console.WriteLine("Your Martial prowess surpassed the might of the Rathian and you forced it to flee! but maybe you could have brought it down...");
                 Console.WriteLine();
             }
-            if (endThree == true)
+            else if (endThree == true)
             {
                 Console.WriteLine("A long way down");
                 Console.WriteLine("It was an inopportune time to fall of the Rathian, and now you're nothing more than a Monster Hunter Pancake.");
                 Console.WriteLine();
             }
-            if (endFour == true)
+            else if (endFour == true)
             {
                 Console.WriteLine("Monster Hunter");
                 Console.WriteLine("Against all odds and one helluva ride you were able to take down the flying wyvern Rathian!");
+                Console.WriteLine();
+            }
+            else
+            {
+                Print("You have not unlocked any achivements!\nPlay the game to aquire some achivements!");
                 Console.WriteLine();
             }
 
