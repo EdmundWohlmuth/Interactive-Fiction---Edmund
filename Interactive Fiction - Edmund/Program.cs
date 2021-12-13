@@ -51,6 +51,7 @@ namespace Monster_Hunter__An_Interactive_Story
 
             pageNum = 0;
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< Updated upstream
             story = File.ReadAllLines(@"story.txt");           
 =======
@@ -59,6 +60,10 @@ namespace Monster_Hunter__An_Interactive_Story
             achivements = File.ReadAllLines(achivementsPath);
 
 >>>>>>> Stashed changes
+=======
+            story = File.ReadAllLines(@"story.txt");
+            
+>>>>>>> parent of 95f7477 (Cleaned up some redundant lines)
 =======
             story = File.ReadAllLines(@"story.txt");
             
@@ -390,12 +395,18 @@ namespace Monster_Hunter__An_Interactive_Story
             }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
+=======
+>>>>>>> parent of 95f7477 (Cleaned up some redundant lines)
             else
             {
                 return;
             }
+<<<<<<< HEAD
+>>>>>>> parent of 95f7477 (Cleaned up some redundant lines)
+=======
 >>>>>>> parent of 95f7477 (Cleaned up some redundant lines)
             // run a new hash here to rewrite the old one?
 
