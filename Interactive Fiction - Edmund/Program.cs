@@ -387,25 +387,25 @@ namespace Monster_Hunter__An_Interactive_Story
             achivementsToSplit = achivements[achivementInt];
             newSplit = achivementsToSplit.Split(':');
 
-                for (int i = 0; i <= newSplit.Length -1; i++)
+            for (int i = 0; i <= newSplit.Length - 1; i++)
+            {
+                if (newSplit[i] == "0CC175B9C0F1B6A831C399E269772661")
                 {
-                    if (newSplit[i] == "0CC175B9C0F1B6A831C399E269772661")
-                    {
-                        endThree = true;
-                    }
-                    if (newSplit[i] == "92EB5FFEE6AE2FEC3AD71C777531578F")
-                    {
-                        endTwo = true;
-                    }
-                    if (newSplit[i] == "4A8A08F09D37B73795649038408B5F33")
-                    {
-                        endThree = true;
-                    }
-                    if (newSplit[i] == "8277E0910D750195B448797616E091AD")
-                    {
-                        endFour = true;
-                    }
-                }                     
+                    endThree = true;
+                }
+                if (newSplit[i] == "92EB5FFEE6AE2FEC3AD71C777531578F")
+                {
+                    endTwo = true;
+                }
+                if (newSplit[i] == "4A8A08F09D37B73795649038408B5F33")
+                {
+                    endThree = true;
+                }
+                if (newSplit[i] == "8277E0910D750195B448797616E091AD")
+                {
+                    endFour = true;
+                }
+            }
         }
 
 
