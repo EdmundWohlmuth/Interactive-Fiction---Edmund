@@ -15,22 +15,27 @@ namespace Monster_Hunter__An_Interactive_Story
         static int pageNum; // element that determins page to be displayed
 
         static string[] story;
+        static string[] achivements;
         static string[] splitText;
 
         static int playerChoiceA;  // response A
         static int playerChoiceB;  // response B
+        static int achiveInt;
 
         static string selection;
         static string textToSplit;
         static string saveData;
 
         static string SourceData;
-        static byte[] tmpSource;
-        static byte[] tmpHash;
+        static byte[] HashBytes;
+        static byte[] ToStringHash;
 
         static string savePath = @"save.txt";
         static string storyPath = @"story.txt"; 
         static string achivementsPath = @"achivement.txt";
+
+        static string achivementList;
+        static string achivementsCheck = "0";
 
         static bool endOne = false;
         static bool endTwo = false;
@@ -45,7 +50,14 @@ namespace Monster_Hunter__An_Interactive_Story
             // initilization
 
             pageNum = 0;
+<<<<<<< Updated upstream
             story = File.ReadAllLines(@"story.txt");           
+=======
+            achiveInt = 0;
+            story = File.ReadAllLines(storyPath);
+            achivements = File.ReadAllLines(achivementsPath);
+
+>>>>>>> Stashed changes
 
             quitGame = false;
 
@@ -125,10 +137,10 @@ namespace Monster_Hunter__An_Interactive_Story
         static void HashCheck() // checks to see if HASH is valid - locks down any unauthorised changes to story.txt
         {           
             SourceData = File.ReadAllText(storyPath);
-            tmpSource = ASCIIEncoding.ASCII.GetBytes(SourceData);
-            tmpHash = new MD5CryptoServiceProvider().ComputeHash(tmpSource); 
+            HashBytes = ASCIIEncoding.ASCII.GetBytes(SourceData);
+            ToStringHash = new MD5CryptoServiceProvider().ComputeHash(HashBytes); 
 
-            if (ByteArrayToString(tmpHash) != "6E8EC0C5E2091FBC90C5AB3613756494") // hard coded but within scope of project
+            if (ByteArrayToString(ToStringHash) != "6E8EC0C5E2091FBC90C5AB3613756494") // hard coded but within scope of project
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("ERROR - story.txt is corrupted. Press any key to quit");
@@ -147,8 +159,9 @@ namespace Monster_Hunter__An_Interactive_Story
             {
                 sOutput.Append(arrInput[i].ToString("X2"));
             }
-            return sOutput.ToString();
+           return sOutput.ToString();
         }
+
             // -------------- GAMEPLAY LOOP ------------------------------------
 
         static void HasDelimiters() // checks to see if string has dilimiters
@@ -306,66 +319,92 @@ namespace Monster_Hunter__An_Interactive_Story
         }
 
             // ------------------------- ACHIVEMENTS ---------------------------------------
-        static void AchivementsCheck()
-        {
-            string achivementList = File.ReadAllText(achivementsPath);
+        static void AchivementsCheck() // Hash codes are essentially passcodes that allow the achivements to persist
+        {          
+            achivementList = File.ReadAllText(achivementsPath);
             Console.ForegroundColor = ConsoleColor.Yellow;
 
-            if (pageNum == 5 && !achivementList.Contains("a"))
+            if (pageNum == 5 && !achivements[0].Contains("0CC175B9C0F1B6A831C399E269772661"))
             {
                 endOne = true;
                 Console.WriteLine("Achivement unlocked: Lunch");
                 Console.WriteLine();
 
-                File.AppendAllText(achivementsPath, "a");
+                achivementsCheck = "a";
+                achiveInt = 0;
+                AchivementHash();
             }
-            else if (achivementList.Contains("a"))
+            else if (achivements[0].Contains("0CC175B9C0F1B6A831C399E269772661"))
             {
                 endOne = true;
             }
 
-            if (pageNum == 14 && !achivementList.Contains("b"))
+            if (pageNum == 14 && !achivements[1].Contains("92EB5FFEE6AE2FEC3AD71C777531578F"))
             {
                 endTwo = true;                
                 Console.WriteLine("Achivement unlocked: Survival");
                 Console.WriteLine();
 
-                File.AppendAllText(achivementsPath, "b");
+                achivementsCheck = "b";
+                achiveInt = 1;
+                AchivementHash();
             }
-            else if (achivementList.Contains("b"))
+            else if (achivements[1].Contains("92EB5FFEE6AE2FEC3AD71C777531578F"))
             {
                 endTwo = true;
             }
 
-            if (pageNum == 13 && !achivementList.Contains("c"))
+            if (pageNum == 13 && !achivements[2].Contains("4A8A08F09D37B73795649038408B5F33"))
             {
                 endThree = true;
                 Console.WriteLine("Achivement unlocked: A long way down");
                 Console.WriteLine();
 
-                File.AppendAllText(achivementsPath, "c");
+                achivementsCheck = "c";
+                achiveInt = 2;
+                AchivementHash();
             }
-            else if (achivementList.Contains("c"))
+            else if (achivements[2].Contains("4A8A08F09D37B73795649038408B5F33"))
             {
                 endThree = true;
             }
 
-            if (pageNum == 15 && !achivementList.Contains("d"))
+            if (pageNum == 15 && !achivements[3].Contains("8277E0910D750195B448797616E091AD"))
             {
                 endFour = true;
                 Console.WriteLine("Achivement unlocked: Monster Hunter");
                 Console.WriteLine();
 
-                File.AppendAllText(achivementsPath, "d");
+                achivementsCheck = "d";
+                achiveInt = 3;
+                AchivementHash();
             }
-            else if (achivementList.Contains("d"))
+            else if (achivements[3].Contains("8277E0910D750195B448797616E091AD"))
             {
                 endFour = true;
             }
 
+<<<<<<< Updated upstream
             // run a new hash here to rewrite the old one?
                    
         }        
+=======
+                                  
+        } 
+        
+        static void AchivementHash()
+        {
+            Byte[] AchiveBytes = ASCIIEncoding.ASCII.GetBytes(achivementsCheck);
+            Byte[] AchiveHash = new MD5CryptoServiceProvider().ComputeHash(AchiveBytes);
+
+            if (ByteArrayToString(AchiveHash) != "CFCD208495D565EF66E7DFF9F98764DA")
+            {
+                File.WriteAllText(achivements[achiveInt], ByteArrayToString(AchiveHash));
+            }
+
+            // There are better ways to do this yes, but this is a way I UNDERSTAND, I hope the hardcoding is witthin the scope of this project.
+        }
+>>>>>>> Stashed changes
 
         static void AchivementsMenu()
         {
@@ -403,8 +442,7 @@ namespace Monster_Hunter__An_Interactive_Story
             Console.ReadKey(true);
             isGameOver = true;
         }
-
-            // ------------------------- MAIN MENU ----------------------------------------
+        // ------------------------- MAIN MENU ----------------------------------------
 
         static void MainMenu()
         {
