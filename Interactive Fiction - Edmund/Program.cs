@@ -20,7 +20,6 @@ namespace Monster_Hunter__An_Interactive_Story
 
         static int playerChoiceA;  // response A
         static int playerChoiceB;  // response B
-        static int achiveInt;
 
         static string selection;
         static string textToSplit;
@@ -31,7 +30,7 @@ namespace Monster_Hunter__An_Interactive_Story
         static byte[] ToStringHash;
 
         static string savePath = @"save.txt";
-        static string storyPath = @"story.txt"; 
+        static string storyPath = @"story.txt";
         static string achivementsPath = @"achivement.txt";
 
         static string achivementList;
@@ -50,24 +49,8 @@ namespace Monster_Hunter__An_Interactive_Story
             // initilization
 
             pageNum = 0;
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-            story = File.ReadAllLines(@"story.txt");           
-=======
-            achiveInt = 0;
             story = File.ReadAllLines(storyPath);
             achivements = File.ReadAllLines(achivementsPath);
-
->>>>>>> Stashed changes
-=======
-            story = File.ReadAllLines(@"story.txt");
-            
->>>>>>> parent of 95f7477 (Cleaned up some redundant lines)
-=======
-            story = File.ReadAllLines(@"story.txt");
-            
->>>>>>> parent of 95f7477 (Cleaned up some redundant lines)
 
             quitGame = false;
 
@@ -94,13 +77,13 @@ namespace Monster_Hunter__An_Interactive_Story
 
                 if (quitGame == false)
                 {
-                    isGameOver = false;                             
-                }                              
+                    isGameOver = false;
+                }
 
             }
         }
 
-            // ------------------------- ERROR CHECK ------------------------------
+        // ------------------------- ERROR CHECK ------------------------------
 
         static void ErrorChecking()
         {
@@ -142,13 +125,13 @@ namespace Monster_Hunter__An_Interactive_Story
 
             HashCheck();
         }
-            // ----------------- HASH CODE --------------------------------------
+        // ----------------- HASH CODE --------------------------------------
 
         static void HashCheck() // checks to see if HASH is valid - locks down any unauthorised changes to story.txt
-        {           
+        {
             SourceData = File.ReadAllText(storyPath);
             HashBytes = ASCIIEncoding.ASCII.GetBytes(SourceData);
-            ToStringHash = new MD5CryptoServiceProvider().ComputeHash(HashBytes); 
+            ToStringHash = new MD5CryptoServiceProvider().ComputeHash(HashBytes);
 
             if (ByteArrayToString(ToStringHash) != "6E8EC0C5E2091FBC90C5AB3613756494") // hard coded but within scope of project
             {
@@ -169,21 +152,21 @@ namespace Monster_Hunter__An_Interactive_Story
             {
                 sOutput.Append(arrInput[i].ToString("X2"));
             }
-           return sOutput.ToString();
+            return sOutput.ToString();
         }
 
-            // -------------- GAMEPLAY LOOP ------------------------------------
+        // -------------- GAMEPLAY LOOP ------------------------------------
 
         static void HasDelimiters() // checks to see if string has dilimiters
         {
             if (story[pageNum].Contains(";"))
             {
                 SplitText();
-            }          
+            }
             else
             {
                 AchivementsCheck();
-                isGameOver = true;             
+                isGameOver = true;
             }
         }
 
@@ -241,7 +224,7 @@ namespace Monster_Hunter__An_Interactive_Story
                     Print(splitText[i]);
                 }
 
-            }            
+            }
         }
 
         static void UserSelection() // switich statement for player choice **Decided to keep the enter key and press enter style system as personal choice
@@ -289,10 +272,10 @@ namespace Monster_Hunter__An_Interactive_Story
 
                         break;
                 }
-            }           
+            }
         }
 
-            // ---------------------------- TEXT DISPLAY ------------------------------------
+        // ---------------------------- TEXT DISPLAY ------------------------------------
 
         public static void Print(string text, int delay = 25) // slowly prints out text
         {
@@ -304,7 +287,7 @@ namespace Monster_Hunter__An_Interactive_Story
             Console.WriteLine();
         }
 
-            // ----------------------------- SAVE GAME --------------------------------------
+        // ----------------------------- SAVE GAME --------------------------------------
 
         static void SaveGame() //checks to see if file exists and saves
         {
@@ -316,7 +299,7 @@ namespace Monster_Hunter__An_Interactive_Story
             else
             {
                 SaveGameInit();
-            }           
+            }
         }
 
         static void SaveGameInit() // runs at start to check if save file is present as well as if save file is not present, it creates a new save.txt
@@ -328,93 +311,55 @@ namespace Monster_Hunter__An_Interactive_Story
             }
         }
 
-            // ------------------------- ACHIVEMENTS ---------------------------------------
+        // ------------------------- ACHIVEMENTS ---------------------------------------
         static void AchivementsCheck() // Hash codes are essentially passcodes that allow the achivements to persist
-        {          
+        {
             achivementList = File.ReadAllText(achivementsPath);
             Console.ForegroundColor = ConsoleColor.Yellow;
 
-            if (pageNum == 5 && !achivements[0].Contains("0CC175B9C0F1B6A831C399E269772661"))
+            if (pageNum == 5 && !achivementList.Contains("0CC175B9C0F1B6A831C399E269772661"))
             {
                 endOne = true;
                 Console.WriteLine("Achivement unlocked: Lunch");
                 Console.WriteLine();
 
                 achivementsCheck = "a";
-                achiveInt = 0;
                 AchivementHash();
             }
-            else if (achivements[0].Contains("0CC175B9C0F1B6A831C399E269772661"))
-            {
-                endOne = true;
-            }
 
-            if (pageNum == 14 && !achivements[1].Contains("92EB5FFEE6AE2FEC3AD71C777531578F"))
+            if (pageNum == 14 && !achivementList.Contains("92EB5FFEE6AE2FEC3AD71C777531578F"))
             {
-                endTwo = true;                
+                endTwo = true;
                 Console.WriteLine("Achivement unlocked: Survival");
                 Console.WriteLine();
 
                 achivementsCheck = "b";
-                achiveInt = 1;
                 AchivementHash();
             }
-            else if (achivements[1].Contains("92EB5FFEE6AE2FEC3AD71C777531578F"))
-            {
-                endTwo = true;
-            }
 
-            if (pageNum == 13 && !achivements[2].Contains("4A8A08F09D37B73795649038408B5F33"))
+            if (pageNum == 13 && !achivementList.Contains("4A8A08F09D37B73795649038408B5F33"))
             {
                 endThree = true;
                 Console.WriteLine("Achivement unlocked: A long way down");
                 Console.WriteLine();
 
                 achivementsCheck = "c";
-                achiveInt = 2;
                 AchivementHash();
             }
-            else if (achivements[2].Contains("4A8A08F09D37B73795649038408B5F33"))
-            {
-                endThree = true;
-            }
 
-            if (pageNum == 15 && !achivements[3].Contains("8277E0910D750195B448797616E091AD"))
+            if (pageNum == 15 && !achivementList.Contains("8277E0910D750195B448797616E091AD"))
             {
                 endFour = true;
                 Console.WriteLine("Achivement unlocked: Monster Hunter");
                 Console.WriteLine();
 
                 achivementsCheck = "d";
-                achiveInt = 3;
                 AchivementHash();
             }
-            else if (achivements[3].Contains("8277E0910D750195B448797616E091AD"))
-            {
-                endFour = true;
-            }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
-=======
->>>>>>> parent of 95f7477 (Cleaned up some redundant lines)
-            else
-            {
-                return;
-            }
-<<<<<<< HEAD
->>>>>>> parent of 95f7477 (Cleaned up some redundant lines)
-=======
->>>>>>> parent of 95f7477 (Cleaned up some redundant lines)
-            // run a new hash here to rewrite the old one?
+            AchivementSplit();
+        }
 
-        }        
-=======
-                                  
-        } 
-        
         static void AchivementHash()
         {
             Byte[] AchiveBytes = ASCIIEncoding.ASCII.GetBytes(achivementsCheck);
@@ -422,12 +367,46 @@ namespace Monster_Hunter__An_Interactive_Story
 
             if (ByteArrayToString(AchiveHash) != "CFCD208495D565EF66E7DFF9F98764DA")
             {
-                File.WriteAllText(achivements[achiveInt], ByteArrayToString(AchiveHash));
+                File.AppendAllText(achivementsPath, ByteArrayToString(AchiveHash) + ":");
             }
 
             // There are better ways to do this yes, but this is a way I UNDERSTAND, I hope the hardcoding is witthin the scope of this project.
         }
->>>>>>> Stashed changes
+
+        static void AchivementSplit()
+        {
+            string[] newSplit;
+            string achivementsToSplit;
+
+            for (int x = 0; x < 4; x++)
+            {
+                achivementsToSplit = achivements[x];
+                newSplit = achivementsToSplit.Split(':');
+
+                for (int i = 0; i <= achivements.Length; i++)
+                {
+                    if (newSplit[i] == "0CC175B9C0F1B6A831C399E269772661")
+                    {
+                        endThree = true;
+                    }
+                    if (newSplit[i] == "92EB5FFEE6AE2FEC3AD71C777531578F")
+                    {
+                        endTwo = true;
+                    }
+                    if (newSplit[i] == "4A8A08F09D37B73795649038408B5F33")
+                    {
+                        endThree = true;
+                    }
+                    if (newSplit[i] == "8277E0910D750195B448797616E091AD")
+                    {
+                        endFour = true;
+                    }
+                }
+            }
+
+            
+        }
+
 
         static void AchivementsMenu()
         {
@@ -469,6 +448,7 @@ namespace Monster_Hunter__An_Interactive_Story
 
         static void MainMenu()
         {
+            Console.Clear();
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("                            _                                      _              ");
             Console.WriteLine("  /\\/\\    ___   _ __   ___ | |_  ___  _ __    /\\  /\\ _   _  _ __  | |_  ___  _ __ ");
@@ -487,7 +467,7 @@ namespace Monster_Hunter__An_Interactive_Story
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("'Monster Hunter' is a game series developed and published by CAPCOM");
             Console.ForegroundColor = ConsoleColor.White;
-            
+
             MenuSelect();
         }
 
