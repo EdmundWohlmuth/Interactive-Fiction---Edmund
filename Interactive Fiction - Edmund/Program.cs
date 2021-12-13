@@ -50,6 +50,7 @@ namespace Monster_Hunter__An_Interactive_Story
             // initilization
 
             pageNum = 0;
+<<<<<<< HEAD
 <<<<<<< Updated upstream
             story = File.ReadAllLines(@"story.txt");           
 =======
@@ -58,6 +59,10 @@ namespace Monster_Hunter__An_Interactive_Story
             achivements = File.ReadAllLines(achivementsPath);
 
 >>>>>>> Stashed changes
+=======
+            story = File.ReadAllLines(@"story.txt");
+            
+>>>>>>> parent of 95f7477 (Cleaned up some redundant lines)
 
             quitGame = false;
 
@@ -384,9 +389,16 @@ namespace Monster_Hunter__An_Interactive_Story
                 endFour = true;
             }
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
+=======
+            else
+            {
+                return;
+            }
+>>>>>>> parent of 95f7477 (Cleaned up some redundant lines)
             // run a new hash here to rewrite the old one?
-                   
+
         }        
 =======
                                   
