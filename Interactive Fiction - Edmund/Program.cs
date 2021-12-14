@@ -56,7 +56,7 @@ namespace Monster_Hunter__An_Interactive_Story
 
             quitGame = false;
 
-            // ------------------------------------------------------------------------
+            // ------------------------------------------------------------------------          
 
             HashCheck();
             SaveGameInit();
@@ -319,99 +319,73 @@ namespace Monster_Hunter__An_Interactive_Story
             achivementList = File.ReadAllText(achivementsPath);
             Console.ForegroundColor = ConsoleColor.Yellow;
 
-            if (pageNum == 5 && !achivementList.Contains("0CC175B9C0F1B6A831C399E269772661"))
+            if (pageNum == 5 && !achivementList.Contains("a"))
             {
                 endOne = true;
                 Console.WriteLine("Achivement unlocked: Lunch");
                 Console.WriteLine();
 
                 achivementsCheck = "a";
-                achivementInt++;
-                AchivementHash();
+                AchivementPrint();
+            }
+            else if (achivementList.Contains("a"))
+            {
+                endOne = true;
             }
 
-            if (pageNum == 14 && !achivementList.Contains("92EB5FFEE6AE2FEC3AD71C777531578F"))
+            if (pageNum == 14 && !achivementList.Contains("b"))
             {
                 endTwo = true;
                 Console.WriteLine("Achivement unlocked: Survival");
                 Console.WriteLine();
 
                 achivementsCheck = "b";
-                achivementInt++;
-                AchivementHash();
+                AchivementPrint();
+            }
+            else if (achivementList.Contains("b"))
+            {
+                endTwo = true;
             }
 
-            if (pageNum == 13 && !achivementList.Contains("4A8A08F09D37B73795649038408B5F33"))
+            if (pageNum == 13 && !achivementList.Contains("c"))
             {
                 endThree = true;
                 Console.WriteLine("Achivement unlocked: A long way down");
                 Console.WriteLine();
 
                 achivementsCheck = "c";
-                achivementInt++;
-                AchivementHash();
+                AchivementPrint();
+            }
+            else if (achivementList.Contains("c"))
+            {
+                endThree = true;
             }
 
-            if (pageNum == 15 && !achivementList.Contains("8277E0910D750195B448797616E091AD"))
+            if (pageNum == 15 && !achivementList.Contains("d"))
             {
                 endFour = true;
                 Console.WriteLine("Achivement unlocked: Monster Hunter");
                 Console.WriteLine();
 
                 achivementsCheck = "d";
-                achivementInt++;
-                AchivementHash();
+                AchivementPrint();
             }
-
-            AchivementSplit();
-        }
-
-        static void AchivementHash()
-        {
-            Byte[] AchiveBytes = ASCIIEncoding.ASCII.GetBytes(achivementsCheck);
-            Byte[] AchiveHash = new MD5CryptoServiceProvider().ComputeHash(AchiveBytes);
-
-            if (ByteArrayToString(AchiveHash) != "CFCD208495D565EF66E7DFF9F98764DA")
+            else if (achivementList.Contains("d"))
             {
-                File.AppendAllText(achivementsPath, ByteArrayToString(AchiveHash) + ":");
+                endFour = true;
             }
 
-            // There are better ways to do this yes, but this is a way I UNDERSTAND, I hope the hardcoding is witthin the scope of this project.
         }
 
-        static void AchivementSplit()
+        static void AchivementPrint()
         {
-            string[] newSplit;
-            string achivementsToSplit;
-
-            achivementsToSplit = achivements[achivementInt];
-            newSplit = achivementsToSplit.Split(':');
-
-            for (int i = 0; i <= newSplit.Length - 1; i++)
-            {
-                if (newSplit[i] == "0CC175B9C0F1B6A831C399E269772661")
-                {
-                    endThree = true;
-                }
-                if (newSplit[i] == "92EB5FFEE6AE2FEC3AD71C777531578F")
-                {
-                    endTwo = true;
-                }
-                if (newSplit[i] == "4A8A08F09D37B73795649038408B5F33")
-                {
-                    endThree = true;
-                }
-                if (newSplit[i] == "8277E0910D750195B448797616E091AD")
-                {
-                    endFour = true;
-                }
-            }
+            File.AppendAllText(achivementsPath, achivementsCheck);
         }
-
 
         static void AchivementsMenu()
         {
-            AchivementSplit();
+            AchivementsCheck();
+            Console.ForegroundColor = ConsoleColor.White;
 
             if (endOne == true)
             {
@@ -419,25 +393,26 @@ namespace Monster_Hunter__An_Interactive_Story
                 Console.WriteLine("You had spirit but at the end of the day, the Rathian bested you and you're now no more than dragon food.");
                 Console.WriteLine();
             }
-            else if (endTwo == true)
+            if (endTwo == true)
             {
                 Console.WriteLine("Survival");
                 Console.WriteLine("Your Martial prowess surpassed the might of the Rathian and you forced it to flee! but maybe you could have brought it down...");
                 Console.WriteLine();
             }
-            else if (endThree == true)
+            if (endThree == true)
             {
                 Console.WriteLine("A long way down");
                 Console.WriteLine("It was an inopportune time to fall of the Rathian, and now you're nothing more than a Monster Hunter Pancake.");
                 Console.WriteLine();
             }
-            else if (endFour == true)
+            if (endFour == true)
             {
                 Console.WriteLine("Monster Hunter");
                 Console.WriteLine("Against all odds and one helluva ride you were able to take down the flying wyvern Rathian!");
                 Console.WriteLine();
             }
-            else
+
+            if (endOne == false && endTwo == false && endThree == false && endFour == false)
             {
                 Print("You have not unlocked any achivements!\nPlay the game to aquire some achivements!");
                 Console.WriteLine();
