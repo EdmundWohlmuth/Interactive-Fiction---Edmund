@@ -20,7 +20,6 @@ namespace Monster_Hunter__An_Interactive_Story
 
         static int playerChoiceA;  // response A
         static int playerChoiceB;  // response B
-        static int achivementInt;
 
         static string selection;
         static string textToSplit;
@@ -50,17 +49,19 @@ namespace Monster_Hunter__An_Interactive_Story
             // initilization
 
             pageNum = 0;
-            achivementInt = 0;
-            story = File.ReadAllLines(storyPath);
-            achivements = File.ReadAllLines(achivementsPath);
+
+            if (File.Exists(storyPath))
+            {
+                story = File.ReadAllLines(storyPath);
+                achivements = File.ReadAllLines(achivementsPath);
+            }
+
+            ErrorChecking();          
+            SaveGameInit(); // get rid of this for another test!!
 
             quitGame = false;
 
-            // ------------------------------------------------------------------------          
-
-            HashCheck();
-            SaveGameInit();
-
+            // ------------------------------------------------------------------------                      
             while (isGameOver == false)
             {
                 AchivementsCheck();
@@ -97,6 +98,7 @@ namespace Monster_Hunter__An_Interactive_Story
 
                 quitGame = true;
                 isGameOver = true;
+                return;
             }
 
             if (story[pageNum].Length == 0) // ensures page isn't empty
