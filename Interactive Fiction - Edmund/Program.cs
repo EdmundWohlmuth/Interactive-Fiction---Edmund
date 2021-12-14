@@ -82,7 +82,6 @@ namespace Monster_Hunter__An_Interactive_Story
                 {
                     isGameOver = false;
                 }
-
             }
         }
 
@@ -101,18 +100,6 @@ namespace Monster_Hunter__An_Interactive_Story
                 return;
             }
 
-            if (story[pageNum].Length == 0) // ensures page isn't empty
-            {
-                isGameOver = true;
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("ERROR - String " + pageNum + " is empty. Press any key to quit.");
-                pageNum = 0;
-                Console.ReadKey(true);
-
-                quitGame = true;
-                isGameOver = true;
-            }
-
             if (pageNum > story.Length || pageNum < story.Length - story.Length) // checks if story is witthin array range
             {
                 Console.Clear();
@@ -120,7 +107,20 @@ namespace Monster_Hunter__An_Interactive_Story
                 isGameOver = true;
 
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("ERROR - Page Number is outside the established range of the story. Press any key to quit to menu");
+                Console.WriteLine("ERROR - Page Number is outside the established range of the story. Press any key to start a new game");
+                Console.ReadKey(true);
+                Console.Clear();
+
+                quitGame = true;
+                isGameOver = true;
+            }
+
+            if (story[pageNum].Length == 0) // ensures page isn't empty
+            {
+                isGameOver = true;
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("ERROR - String " + pageNum + " is empty. Press any key to quit.");
+                pageNum = 0;
                 Console.ReadKey(true);
 
                 quitGame = true;
@@ -486,8 +486,9 @@ namespace Monster_Hunter__An_Interactive_Story
                         if (loadSuccess == false)
                         {
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("ERROR - save.txt is corrupted.  Press any key to quit.");
+                            Console.WriteLine("ERROR - save.txt is corrupted. Press any key to start over.");
                             Console.ReadKey(true);
+                            Console.Clear();
                         }
                     }
                     else
