@@ -40,6 +40,7 @@ namespace Monster_Hunter__An_Interactive_Story
         static bool endTwo = false;
         static bool endThree = false;
         static bool endFour = false;
+        static bool loadSuccess;
 
         static bool isGameOver;
         static bool quitGame;
@@ -49,7 +50,7 @@ namespace Monster_Hunter__An_Interactive_Story
             // initilization
 
             pageNum = 0;
-
+          
             if (File.Exists(storyPath))
             {
                 story = File.ReadAllLines(storyPath);
@@ -57,7 +58,6 @@ namespace Monster_Hunter__An_Interactive_Story
             }
 
             ErrorChecking();          
-            SaveGameInit(); // get rid of this for another test!!
 
             quitGame = false;
 
@@ -135,6 +135,7 @@ namespace Monster_Hunter__An_Interactive_Story
 
                 quitGame = true;
                 isGameOver = true;
+                return;
             }
 
             HashCheck();
@@ -476,8 +477,24 @@ namespace Monster_Hunter__An_Interactive_Story
                 case "2":
 
                     Console.Clear();
-                    saveData = File.ReadAllText(savePath);
-                    pageNum = int.Parse(saveData);
+                    ErrorChecking();
+
+                    if (File.Exists(savePath))
+                    {
+                        saveData = File.ReadAllText(savePath);
+                        loadSuccess = int.TryParse(saveData, out pageNum);
+                        if (loadSuccess == false)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine("ERROR - save.txt is corrupted.  Press any key to quit.");
+                            Console.ReadKey(true);
+                        }
+                    }
+                    else
+                    {
+                        SaveGameInit();
+                    }
+                   
 
                     break;
 
