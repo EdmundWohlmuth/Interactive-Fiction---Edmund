@@ -125,6 +125,16 @@ namespace Monster_Hunter__An_Interactive_Story
                 isGameOver = true;
             }
 
+            if (achivements.Length > 4)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("ERROR - achivement.txt is corrupted.  Press any key to quit and Please delete the file");
+                Console.ReadKey(true);
+
+                quitGame = true;
+                isGameOver = true;
+            }
+
             HashCheck();
         }
         // ----------------- HASH CODE --------------------------------------
@@ -182,7 +192,7 @@ namespace Monster_Hunter__An_Interactive_Story
             bool optionOneSuccess = int.TryParse(splitText[splitText.Length - 2], out playerChoiceA); // Checks the last two strings to be used in page navigation - errors blocked by hash code
             bool optionTwoSuccess = int.TryParse(splitText[splitText.Length - 1], out playerChoiceB); // ---------------------------------------------------------------------------------------
 
-            if (!optionOneSuccess || !optionTwoSuccess)
+            if (!optionOneSuccess || !optionTwoSuccess) // aditional error checking for page navigation errors
             {
                 Console.ForegroundColor = ConsoleColor.Red;
 
